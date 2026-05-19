@@ -1,9 +1,11 @@
 package se.jolod;
 
-public class Question {
+public abstract class Question {
     public final String description;
 
     Question(String description) {
         this.description = description;
     }
+
+    public abstract void printQuestionChoices();
 }

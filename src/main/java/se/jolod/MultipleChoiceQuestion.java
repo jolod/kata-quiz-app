@@ -10,4 +10,11 @@ public class MultipleChoiceQuestion extends Question {
 
         this.options = options;
     }
+
+    @Override
+    public void printQuestionChoices() {
+        for (int i = 0; i < options.size(); i++) {
+            System.out.printf("%d. %s%n", i + 1, options.get(i));
+        }
+    }
 }
