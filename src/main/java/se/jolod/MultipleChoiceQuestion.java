@@ -10,4 +10,9 @@ public class MultipleChoiceQuestion extends Question {
 
         this.options = options;
     }
+
+    @Override
+    public void render(QuestionRenderer renderer) {
+        renderer.renderMultipleChoiceQuestion(this);
+    }
 }
