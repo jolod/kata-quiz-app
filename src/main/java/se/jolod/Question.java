@@ -1,9 +1,16 @@
 package se.jolod;
 
-public class Question {
-    public final String description;
+import java.util.List;
 
-    Question(String description) {
-        this.description = description;
+public sealed interface Question {
+    String description();
+
+    record TrueOrFalse(String description) implements Question {
+    }
+
+    record MultipleChoice(String description, List<String> options) implements Question {
+    }
+
+    record Text(String description) implements Question {
     }
 }
