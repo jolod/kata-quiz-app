@@ -13,14 +13,6 @@ public class Main {
         printQuiz(questions);
     }
 
-    public static void printQuiz(List<Question> questions) {
-        for (var question : questions) {
-            System.out.println(question.description);
-            printQuestionChoices(question);
-            System.out.println();
-        }
-    }
-
     private static void printQuestionChoices(Question question) {
         switch (question) {
             case BooleanQuestion _ -> printBooleanQuestionChoices();
@@ -31,10 +23,22 @@ public class Main {
         }
     }
 
+    public static void printQuiz(List<Question> questions) {
+
+        for (var question : questions) {
+            System.out.println(question.description);
+            printQuestionChoices(question);
+            System.out.println();
+        }
+    }
+
+
+
     private static void printBooleanQuestionChoices() {
         System.out.println("1. True");
         System.out.println("2. False");
     }
+
 
     private static void printMultipleChoiceQuestionChoices(MultipleChoiceQuestion multipleChoiceQuestion) {
         var options = multipleChoiceQuestion.options;
@@ -43,7 +47,9 @@ public class Main {
         }
     }
 
+
     private static void printTextQuestionChoices() {
         System.out.println("Answer: ___________________");
     }
+
 }
