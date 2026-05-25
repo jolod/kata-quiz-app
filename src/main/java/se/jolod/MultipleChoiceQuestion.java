@@ -1,5 +1,6 @@
 package se.jolod;
 
+import java.io.PrintStream;
 import java.util.List;
 
 public class MultipleChoiceQuestion extends Question {
@@ -12,9 +13,9 @@ public class MultipleChoiceQuestion extends Question {
     }
 
     @Override
-    public void printQuestionChoices() {
+    public void printQuestionChoices(PrintStream out) {
         for (int i = 0; i < options.size(); i++) {
-            System.out.printf("%d. %s%n", i + 1, options.get(i));
+            out.printf("%d. %s%n", i + 1, options.get(i));
         }
     }
 }

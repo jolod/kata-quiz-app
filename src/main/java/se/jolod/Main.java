@@ -1,5 +1,6 @@
 package se.jolod;
 
+import java.io.PrintStream;
 import java.util.List;
 
 public class Main {
@@ -10,14 +11,14 @@ public class Main {
                         List.of("CSS", "HTML", "JS", "Python")),
                 new TextQuestion("Describe your favorite JS feature."));
 
-        printQuiz(questions);
+        printQuiz(questions, System.out);
     }
 
-    public static void printQuiz(List<Question> questions) {
+    public static void printQuiz(List<Question> questions, PrintStream out) {
         for (var question : questions) {
-            System.out.println(question.description);
-            question.printQuestionChoices();
-            System.out.println();
+            out.println(question.description);
+            question.printQuestionChoices(out);
+            out.println();
         }
     }
 }

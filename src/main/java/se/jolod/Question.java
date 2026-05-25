@@ -1,5 +1,7 @@
 package se.jolod;
 
+import java.io.PrintStream;
+
 public abstract class Question {
     public final String description;
 
@@ -7,5 +9,5 @@ public abstract class Question {
         this.description = description;
     }
 
-    public abstract void printQuestionChoices();
+    public abstract void printQuestionChoices(PrintStream out);
 }
