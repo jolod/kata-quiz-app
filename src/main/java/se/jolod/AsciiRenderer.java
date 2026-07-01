@@ -20,23 +20,14 @@ public class AsciiRenderer {
     private static ArrayList<String> renderQuestion(
             Question question,
             int questionNumber) {
-
-        var description = question.description();
-        var indentationSize = 1;
         var pageWidth = 25;
-        var bodyLines = renderQuestionBody(question, pageWidth - indentationSize, "  ");
-
-        return renderQuestion(questionNumber, description, bodyLines);
-    }
-
-    static ArrayList<String> renderQuestion(
-            int questionNumber,
-            String description,
-            List<String> bodyLines) {
 
         var prefix = "%d. ".formatted(questionNumber);
         var indentation = " ".repeat(prefix.length());
 
+        var description = question.description();
+        var indentationSize = indentation.length();
+        var bodyLines = renderQuestionBody(question, pageWidth - indentationSize, "  ");
         var indentedLines = bodyLines.stream().map(line -> indentation + line).toList();
         var desc = prefix + description;
 
