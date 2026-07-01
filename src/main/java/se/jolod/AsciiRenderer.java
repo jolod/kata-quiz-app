@@ -19,9 +19,7 @@ public class AsciiRenderer {
             questionNumber++;
 
             allTheLines.add(desc);
-            for (var line : indentedLines) {
-                allTheLines.add(line);
-            }
+            allTheLines.addAll(indentedLines);
             allTheLines.add("");
         }
         return allTheLines;
