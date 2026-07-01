@@ -10,29 +10,61 @@ public class AsciiRenderer {
 
         var questionNumber = 1;
         for (var question : questions) {
-            var lines = renderQuestionBody(question);
-            var indentedLines = lines.stream().map(line -> "   " + line).toList();
-            var prefix = "%d. ". formatted(questionNumber);
-            var description = question.description();
-            var desc = prefix + description;
-
+            var lines = renderQuestion(question, questionNumber);
+            allTheLines.addAll(lines);
             questionNumber++;
-
-            allTheLines.add(desc);
-            allTheLines.addAll(indentedLines);
-            allTheLines.add("");
         }
         return allTheLines;
     }
 
-    private static List<String> renderQuestionBody(Question question) {
+    private static ArrayList<String> renderQuestion(
+            Question question,
+            int questionNumber) {
+
+        var description = question.description();
+        var indentationSize = 1;
+        var pageWidth = 25;
+        var bodyLines = renderQuestionBody(question, pageWidth - indentationSize, "  ");
+
+        return renderQuestion(questionNumber, description, bodyLines);
+    }
+
+    static ArrayList<String> renderQuestion(
+            int questionNumber,
+            String description,
+            List<String> bodyLines) {
+
+        var prefix = "%d. ".formatted(questionNumber);
+        var indentation = " ".repeat(prefix.length());
+
+        var indentedLines = bodyLines.stream().map(line -> indentation + line).toList();
+        var desc = prefix + description;
+
+        var lines = new ArrayList<String>();
+        lines.add(desc);
+        lines.addAll(indentedLines);
+        lines.add("");
+        return lines;
+    }
+
+    private static List<String> renderQuestionBody(
+            Question question,
+            int pageWidth,
+            String separator) {
+
         return switch (question) {
-            case Question.SingleChoice singleChoiceQuestion ->
-                    renderSingleChoiceOptions(singleChoiceQuestion.options());
-            case Question.MultipleChoice multipleChoiceQuestion ->
-                    renderMultipleChoiceOptions(multipleChoiceQuestion.options());
-            case Question.Text _ ->
-                    List.of("Answer: ___________________");
+            case Question.SingleChoice singleChoiceQuestion -> stackHorizontally(
+                    renderSingleChoiceOptions(singleChoiceQuestion.options()),
+                    separator,
+                    pageWidth
+            );
+            case Question.MultipleChoice multipleChoiceQuestion -> stackHorizontally(
+                    renderMultipleChoiceOptions(multipleChoiceQuestion.options()),
+                    separator,
+                    pageWidth
+
+            );
+            case Question.Text _ -> List.of("Answer: ___________________");
         };
     }
 
@@ -54,5 +86,33 @@ public class AsciiRenderer {
                 .stream()
                 .map("[ ] %s"::formatted)
                 .toList();
+    }
+
+    static List<String> stackHorizontally(
+            List<String> items,
+            String separator,
+            int maxLength) {
+
+        var lines = new ArrayList<String>();
+
+        var line = new StringBuilder();
+        for (var item : items) {
+            if (line.isEmpty()) {
+                line.append(item);
+            } else {
+                if (line.length() + separator.length() + item.length() <= maxLength) {
+                    line.append(separator);
+                    line.append(item);
+                } else {
+                    lines.add(line.toString());
+                    line = new StringBuilder(item);
+                }
+            }
+        }
+        if (!line.isEmpty()) {
+            lines.add(line.toString());
+        }
+
+        return lines;
     }
 }
