@@ -12,7 +12,11 @@ public class Main {
                         List.of("Java", "English", "Swedish")),
                 new Question.Text("Describe your favorite JS feature."));
 
+        var allTheLines = AsciiRenderer.renderQuiz(questions);
+
         var out = System.out;
-        AsciiPrinter.printQuiz(questions, out);
+        for (var line : allTheLines) {
+            out.println(line);
+        }
     }
 }

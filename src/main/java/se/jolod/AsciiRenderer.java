@@ -1,27 +1,30 @@
 package se.jolod;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AsciiPrinter {
-    public static void printQuiz(List<Question> questions, PrintStream out) {
+public class AsciiRenderer {
+
+    public static ArrayList<String> renderQuiz(List<Question> questions) {
+        var allTheLines = new ArrayList<String>();
+
         var questionNumber = 1;
         for (var question : questions) {
-            var prefix = "%d. ". formatted(questionNumber);
-            out.print(prefix);
-            out.println(question.description());
-
             var lines = renderQuestionBody(question);
-
-            for (var line : lines) {
-                out.println(line);
-            }
-
-            out.println();
+            var indentedLines = lines.stream().map(line -> "   " + line).toList();
+            var prefix = "%d. ". formatted(questionNumber);
+            var description = question.description();
+            var desc = prefix + description;
 
             questionNumber++;
+
+            allTheLines.add(desc);
+            for (var line : indentedLines) {
+                allTheLines.add(line);
+            }
+            allTheLines.add("");
         }
+        return allTheLines;
     }
 
     private static List<String> renderQuestionBody(Question question) {
