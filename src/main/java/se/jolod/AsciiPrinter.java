@@ -6,7 +6,10 @@ import java.util.List;
 
 public class AsciiPrinter {
     public static void printQuiz(List<Question> questions, PrintStream out) {
+        var questionNumber = 1;
         for (var question : questions) {
+            var prefix = "%d. ". formatted(questionNumber);
+            out.print(prefix);
             out.println(question.description());
 
             var lines = renderQuestionBody(question);
@@ -16,6 +19,8 @@ public class AsciiPrinter {
             }
 
             out.println();
+
+            questionNumber++;
         }
     }
 
